@@ -1,3 +1,5 @@
+package SingleThreaded;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,7 +11,7 @@ import java.net.UnknownHostException;
 public class Client {
 
     public void run() throws UnknownHostException, IOException {
-        int port = 8010;  // Match this with the Server port
+        int port = 8010;  // Match this with the SingleThreaded.Server port
         InetAddress address = InetAddress.getByName("localhost");
         Socket socket = new Socket(address, port);
         PrintWriter toSocket = new PrintWriter(socket.getOutputStream(), true);
