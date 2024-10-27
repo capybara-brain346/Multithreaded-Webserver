@@ -1,30 +1,24 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Server {
 
-    public void run() throws IOException {
+    public void run() throws IOException, UnknownHostException {
         int port = 8010;
         ServerSocket socket = new ServerSocket(port);
-        socket.setSoTimeout(10000);
+        socket.setSoTimeout(20000);
         while (true) {
-            try {
-                System.out.println("Socket is listening on:" + port);
-                Socket acceptedConnection = socket.accept();
-                System.out.println("Connection accepted from client: " + acceptedConnection.getRemoteSocketAddress());
-                PrintWriter toClient = new PrintWriter(acceptedConnection.getOutputStream());
-                BufferedReader fromClient = new BufferedReader(new InputStreamReader(acceptedConnection.getInputStream()));
-                toClient.println("Hello from the server!");
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            }
+            System.out.println("Server is listening on port: " + port);
+            Socket acceptedConnection = socket.accept();
+            System.out.println("Connected to " + acceptedConnection.getRemoteSocketAddress());
+            PrintWriter toClient = new PrintWriter(acceptedConnection.getOutputStream(), true);
+            BufferedReader fromClient = new BufferedReader(new InputStreamReader(acceptedConnection.getInputStream()));
+            toClient.println("Hello World from the server");
         }
     }
 
@@ -32,10 +26,9 @@ public class Server {
         Server server = new Server();
         try {
             server.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-
     }
+
 }
